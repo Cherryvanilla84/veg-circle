@@ -5,7 +5,7 @@
 }
 
 #viewer_iframe{
-	border:1px solid gray;
+	border:1px solid rebeccapurple;
 	resize:both;
 	width:100%;
 }
@@ -14,3 +14,10 @@
 	border:1px solid gray;
 	width:100%;	
 }
+
+ body {
+	 
+	 background: url('/bg.jpg') center fixed ;
+	  background-size: contain;
+	background-repeat: no-repeat;
+ }

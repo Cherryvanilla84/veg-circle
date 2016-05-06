@@ -1,37 +1,17 @@
 // code that is only sent to the client
 
 // subscribe to read data
-Meteor.subscribe("documents");
+Meteor.subscribe("recipes");
 Meteor.subscribe("editingUsers");
 Meteor.subscribe("comments");
-
-// set up the iron router
-Router.configure({
-  layoutTemplate: 'ApplicationLayout'
-});
-
-// 'home' page
-Router.route('/', function () {
-  console.log("you hit / ");
-  this.render("navbar", {to:"header"});
-  this.render("docList", {to:"main"});  
-});
-
-// individual document page
-Router.route('/documents/:_id', function () {
-  console.log("you hit /documents  "+this.params._id);
-  Session.set("docid", this.params._id);
-  this.render("navbar", {to:"header"});
-  this.render("docItem", {to:"main"});  
-});
 
 
 
 Template.editor.helpers({
   // get current doc id
-  docid:function(){
-    setupCurrentDocument();
-    return Session.get("docid");
+  recid:function(){
+    setupCurrentRec();
+    return Session.get("recid");
   }, 
   // set up the editor
   config:function(){
@@ -40,7 +20,7 @@ Template.editor.helpers({
       editor.setOption("theme", "cobalt");
       editor.on("change", function(cm_editor, info){
         $("#viewer_iframe").contents().find("html").html(cm_editor.getValue());
-        Meteor.call("addEditingUser", Session.get("docid"));
+        Meteor.call("addEditingUser", Session.get("recid"));
       });        
     }
   }, 
@@ -50,10 +30,10 @@ Template.editor.helpers({
 Template.editingUsers.helpers({
   // retrieve a list of users
   users:function(){
-    var doc, eusers, users;
-    doc = Documents.findOne({_id:Session.get("docid")});
-    if (!doc){return;}// give up
-    eusers = EditingUsers.findOne({docid:doc._id});
+    var rec, eusers, users;
+    rec = Recipes.findOne({_id:Session.get("recid")});
+    if (!rec){return;}// give up
+    eusers = EditingUsers.findOne({recid:rec._id});
     if (!eusers){return;}// give up
     users = new Array();
     var i = 0;
@@ -67,22 +47,22 @@ Template.editingUsers.helpers({
 
 Template.navbar.helpers({
   // rerrieve a list of documents
-  documents:function(){
-    return Documents.find();
+  recipes:function(){
+    return Recipes.find();
   }
 })
 
-Template.docMeta.helpers({
+Template.recMeta.helpers({
   // find current document
-  document:function(){
-    return Documents.findOne({_id:Session.get("docid")});
+  recipes:function(){
+    return Recipes.findOne({_id:Session.get("recid")});
   }, 
   // test if a user is allowed to edit current doc
   canEdit:function(){
-    var doc;
-    doc = Documents.findOne({_id:Session.get("docid")});
-    if (doc){
-      if (doc.owner == Meteor.userId()){
+    var rec;
+    rec = Recipes.findOne({_id:Session.get("recid")});
+    if (rec){
+      if (rec.owner == Meteor.userId()){
         return true;
       }
     }
@@ -92,10 +72,10 @@ Template.docMeta.helpers({
 
 Template.editableText.helpers({
     // test if a user is allowed to edit current doc
-  userCanEdit : function(doc,Collection) {
+  userCanEdit : function(rec,Collection) {
     // can edit if the current doc is owned by me.
-    doc = Documents.findOne({_id:Session.get("docid"), owner:Meteor.userId()});
-    if (doc){
+    rec = Recipes.findOne({_id:Session.get("recid"), owner:Meteor.userId()});
+    if (rec){
       return true;
     }
     else {
@@ -104,24 +84,24 @@ Template.editableText.helpers({
   }    
 })
 
-Template.docList.helpers({
+Template.recList.helpers({
   // find all visible docs
-  documents:function(){
-    return Documents.find();
+  recipes:function(){
+    return Recipes.find();
   }
 })
 
 Template.insertCommentForm.helpers({
   // find current doc id
-  docid:function(){
-    return Session.get("docid");
+  recid:function(){
+    return Session.get("recid");
   }, 
 })
 
 Template.commentList.helpers({
   // find all comments for current doc
   comments:function(){
-    return Comments.find({docid:Session.get("docid")});
+    return Comments.find({recid:Session.get("recid")});
   }
 })
 
@@ -131,9 +111,9 @@ Template.commentList.helpers({
 
 Template.navbar.events({
   // add doc button
-  "click .js-add-doc":function(event){
+  "click .js-add-rec":function(event){
     event.preventDefault();
-    console.log("Add a new doc!");
+    console.log("Add a new rec!");
 
     for (var i=0;i<10;i++){
       Meteor.call('testMethod', function(){
@@ -148,38 +128,74 @@ Template.navbar.events({
     }
     else {
       // they are logged in... lets insert a doc
-      var id = Meteor.call("addDoc", function(err, res){
+      var id = Meteor.call("addRec", function(err, res){
         if (!err){// all good
           console.log("event callback received id: "+res);
-          Session.set("docid", res);            
+          Session.set("recid", res);            
         }
       });
     }
   }, 
   // load doc button
-  "click .js-load-doc":function(event){
+  "click .js-load-rec":function(event){
     //console.log(this);
-    Session.set("docid", this._id);
+    Session.set("recid", this._id);
   }
 })
+Template.recList.events({ 
+   // add doc button
+  "click .js-add-rec":function(event){
+    event.preventDefault();
+    console.log("Add a new rec!");
 
-Template.docMeta.events({
+    for (var i=0;i<10;i++){
+      Meteor.call('testMethod', function(){
+        console.log('testMethod returned');
+      });
+      console.log('after testMethod call');
+    }
+
+
+    if (!Meteor.user()){// user not available
+        alert("You need to login first!");
+    }
+    else {
+      // they are logged in... lets insert a doc
+      var id = Meteor.call("addRec", function(err, res){
+        if (!err){// all good
+          console.log("event callback received id: "+res);
+          Session.set("recid", res);            
+        }
+      });
+    }
+  }, 
+  // load doc button
+  "click .js-load-rec":function(event){
+    //console.log(this);
+    Session.set("recid", this._id);
+  }
+}); 
+
+
+ 
+
+Template.recMeta.events({
   // change document privacy
   "click .js-tog-private":function(event){
     console.log(event.target.checked);
-    var doc = {_id:Session.get("docid"), isPrivate:event.target.checked};
-    Meteor.call("updateDocPrivacy", doc);
+    var rec = {_id:Session.get("recid"), isPrivate:event.target.checked};
+    Meteor.call("updateRecPrivacy", rec);
 
   }
 })
 
 // helper to make sure a doc is available
-function setupCurrentDocument(){
-  var doc;
-  if (!Session.get("docid")){// no doc id set yet
-    doc = Documents.findOne();
-    if (doc){
-      Session.set("docid", doc._id);
+function setupCurrentRec(){
+  var rec;
+  if (!Session.get("recid")){// no doc id set yet
+rec = Recipes.findOne();
+    if (rec){
+      Session.set("recid", rec._id);
     }
   }
 }

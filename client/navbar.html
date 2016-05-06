@@ -1,34 +1,60 @@
-<template name="navbar">  
-<nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="/">VegCircle</a>
-        <ul class="nav navbar-nav">
-          <li>
-            <a href="#" class="js-add-doc">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-              Add Recipe
-            </a> 
-          </li>
+<template name="navbar">
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+     VegCircle</a>
+      <ul class="nav navbar-nav">
+        <!--          <li>
+        <a href="#" class="js-add-doc">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        Add Recipe
+      </a>
+    </li>-->
+    <li>
+      <a href="#" class="js-add-ingr">
+        <img style="width:50px;height:50px;" class="img-circle img-responsive img-center" src="https://lh4.ggpht.com/IVqQJqtpLtbbgKrV948912cFdD0tEOBJoDvL8CCRebZ7Peaxw8msX2ykRZ7dnNFUGA=w300"
+        alt="">
+        <center> Add Ingredients</center>
+      </a>
+
+    </li>
+    <li>
+      <a href="#" class="js-add-rec">
+        <img style="width:50px;height:50px;" class="img-circle img-responsive img-center" src="https://lh4.ggpht.com/LdVHCu7ffNnhVFMFi2PR9EAqcPDgVaCEVd4kLb7lieXUA-mEFPOF_6C-IBSQMFu69oM=w300"
+        alt="">
+
+        <center> Add Recipe </center>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="js-show-book">
+        <img style="width:50px;height:50px;" class="img-circle img-responsive img-center" src="https://lh3.googleusercontent.com/-3d8K9HUR8VC-IRBKJhlIWm0TTKKmdyNMX4Y9KjXXbDiEvCsHZnEr-sdHiQyd2z9eA=w300"
+        alt="">
+        <center> See your CookBook </center>
+
+      </a>
+
+    </li>
 
 
-          <!-- drop down list -->
-          <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recipes <span class="caret"></span></a>
+    <!-- drop down list -->
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recipes <span class="caret"></span></a>
 
-          <ul class="dropdown-menu">
-            {{#each documents}}
-            <li><a href="/documents/{{_id}}" class="">{{title}}</a></li>
-            {{/each}}
-          </ul>
-        </li>
-          <!-- end drop down list -->
-        </ul>
-        <div class="nav navbar-right">
-        <div class="navbar-text">
-            {{> loginButtons align="right"}}
+      <ul class="dropdown-menu">
+        {{#each recipes}}
+        <li><a href="/recipes/{{_id}}" class="">{{title}}</a></li>
+        {{/each}}
+      </ul>
+    </li>
+    <!-- end drop down list -->
+  </ul>
+  <div class="nav navbar-right">
+    <div class="navbar-text">
+      {{> loginButtons align="right"}}
 
-        </div>   
-        </div>       
-      </div> <!-- / nav container -->
-  </nav> 
+    </div>
+  </div>
+</div> <!-- / nav container -->
+</nav>
 </template>

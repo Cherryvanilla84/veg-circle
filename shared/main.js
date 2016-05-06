@@ -10,45 +10,45 @@ Meteor.methods({
         return Comments.insert(comment);
     }
     return;
-  }, 
+  },
 
-  // adding new documents
-  addDoc:function(){
-    var doc;
+  // adding new recuments
+  addRec:function(){
+    var rec;
     if (!this.userId){// not logged in
       return;
     }
     else {
-      doc = {owner:this.userId, createdOn:new Date(), 
-            title:"my new doc"};
-      var id = Documents.insert(doc);
-      console.log("addDoc method: got an id "+id);
+      rec = {owner:this.userId, createdOn:new Date(),
+            title:"my new recipe"};
+      var id = Recipes.insert(rec);
+      console.log("addRec method: got an id "+id);
       return id;
     }
-  }, 
-  // changing doc privacy settings
-  updateDocPrivacy:function(doc){
-    console.log("updateDocPrivacy method");
-    console.log(doc);
-    var realDoc = Documents.findOne({_id:doc._id, owner:this.userId});
-    if (realDoc){
-      realDoc.isPrivate = doc.isPrivate;
-      Documents.update({_id:doc._id}, realDoc);
+  },
+  // changing rec privacy settings
+  updateRecPrivacy:function(rec){
+    console.log("updateRecPrivacy method");
+    console.log(rec);
+    var realRec = Recipes.findOne({_id:rec._id, owner:this.userId});
+    if (realRec){
+      realRec.isPrivate = rec.isPrivate;
+      Recipes.update({_id:rec._id}, realRec);
     }
   },
-// adding editors to a document
-  addEditingUser:function(docid){
-    var doc, user, eusers;
-    doc = Documents.findOne({_id:docid});
-    if (!doc){return;}// no doc give up
+// adding editors to a recument
+  addEditingUser:function(recid){
+    var rec, user, eusers;
+    rec = Recipes.findOne({_id:recid});
+    if (!rec){return;}// no rec give up
     if (!this.userId){return;}// no logged in user give up
-    // now I have a doc and possibly a user
+    // now I have a rec and possibly a user
     user = Meteor.user().profile;
-    eusers = EditingUsers.findOne({docid:doc._id});
+    eusers = EditingUsers.findOne({recid:rec._id});
     if (!eusers){
       eusers = {
-        docid:doc._id, 
-        users:{}, 
+        recid:rec._id,
+        users:{},
       };
     }
     user.lastEdit = new Date();

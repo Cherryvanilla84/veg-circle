@@ -2,8 +2,8 @@
 
 Meteor.startup(function () {
   // create a starter doc if necessary
-  if (!Documents.findOne()){// no documents yet!
-      Documents.insert({title:"my new document"});
+  if (!Recipes.findOne()){// no documents yet!
+      Recipes.insert({title:"my new recipe"});
   }
 });
 
@@ -11,8 +11,8 @@ Meteor.startup(function () {
 // publish read access to collections
 
 // all visible docs 
-Meteor.publish("documents", function(){
-  return Documents.find({
+Meteor.publish("recipes", function(){
+  return Recipes.find({
    $or:[
     {isPrivate:{$ne:true}}, 
     {owner:this.userId}
