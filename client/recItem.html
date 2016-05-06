@@ -12,14 +12,14 @@
       </div>
     </div>
 
-    <div class="row">
+<!--    <div class="row">
       <div class="col-md-6">
           {{> editor}}
       </div>
       <div class="col-md-6">
         {{> viewer}}
       </div>
-    </div>
+    </div>-->
     {{> commentList}}
 
     {{> insertCommentForm}}
@@ -44,7 +44,23 @@
 
 <template name="recMeta"> 
   {{#with recipes}}
-  <span class="h1"> {{> editableText collection="recipes" field="title"}}</span>
+   <div class="row">
+     <div class= "col-md-2 h1"> Title: 
+       </div>  
+       <div class= "col-md-10 h1">
+          <span class="h1"> {{> editableText collection="recipes" field="title" textarea=true }}</span>
+       </div>
+  </div>
+  
+  
+  <div class="row">
+     <div class= "col-md-2 h2"> Description: 
+       </div>  
+       <div class= "col-md-10 h2">
+          <span class="h2"> {{> editableText collection="recipes" field="description" wysiwyg=true rows = 30 }}</span>
+       </div>
+  </div>
+  
   {{#if canEdit}}
   <div class="checkbox">
       <label>

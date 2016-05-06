@@ -3,7 +3,7 @@
 Meteor.startup(function () {
   // create a starter doc if necessary
   if (!Recipes.findOne()){// no documents yet!
-      Recipes.insert({title:"my new recipe"});
+      Recipes.insert({title:"my new recipe", description:"my description"});
   }
 });
 

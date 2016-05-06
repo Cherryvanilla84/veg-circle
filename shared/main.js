@@ -20,7 +20,7 @@ Meteor.methods({
     }
     else {
       rec = {owner:this.userId, createdOn:new Date(),
-            title:"my new recipe"};
+            title:"my new recipe",description:"my description"};
       var id = Recipes.insert(rec);
       console.log("addRec method: got an id "+id);
       return id;
