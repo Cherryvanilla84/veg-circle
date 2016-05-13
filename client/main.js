@@ -4,10 +4,11 @@
 Meteor.subscribe("recipes");
 Meteor.subscribe("editingUsers");
 Meteor.subscribe("comments");
+Meteor.subscribe("ingredients");
 
 
 
-Template.editor.helpers({
+/*Template.editor.helpers({
   // get current doc id
   recid:function(){
     setupCurrentRec();
@@ -25,9 +26,9 @@ Template.editor.helpers({
     }
   }, 
 });
+*/
 
-
-Template.editingUsers.helpers({
+/*Template.editingUsers.helpers({
   // retrieve a list of users
   users:function(){
     var rec, eusers, users;
@@ -43,22 +44,41 @@ Template.editingUsers.helpers({
     }
     return users;
   }
-})
+})*/
 
 Template.navbar.helpers({
   // rerrieve a list of documents
-  recipes:function(){
+ recipes:function(){
     return Recipes.find();
+   
+  },
+   ingredient:function(){
+    var ig = Ingredients.findOne({_id:Session.get("ingid")});
+    return ig._id
+}})
+
+/*Template.myFabTemplate.helpers({
+    getStuff: function(){
+        return "Amsterdam,Washington,Sydney,Beijing,Cairo";
+    }
+});*/
+Template.checklisttemp.helpers({
+  // find all visible docs
+  data:function(){
+    return Ingredients.find();
   }
 })
+
 
 Template.recMeta.helpers({
   // find current document
   recipes:function(){
     return Recipes.findOne({_id:Session.get("recid")});
-  }, 
+    
+    
+  },   
   // test if a user is allowed to edit current doc
-  canEdit:function(){
+  usercanEdit:function(){
     var rec;
     rec = Recipes.findOne({_id:Session.get("recid")});
     if (rec){
@@ -70,24 +90,40 @@ Template.recMeta.helpers({
   }
 })
 
-Template.editableText.helpers({
-    // test if a user is allowed to edit current doc
-  userCanEdit : function(rec,Collection) {
-    // can edit if the current doc is owned by me.
-    rec = Recipes.findOne({_id:Session.get("recid"), owner:Meteor.userId()});
-    if (rec){
-      return true;
+Template.ingDett.helpers({
+  // find current document
+  ingredients:function(){
+    return Ingredients.findOne({_id:Session.get("ingid")});
+  }, 
+ 
+  
+  // test if a user is allowed to edit current doc
+  usercanEdit:function(){
+    var ing;
+    ing = Ingredients.findOne({_id:Session.get("ingid")});
+    if (ing){
+      if (ing.owner == Meteor.userId()){
+        return true;
+      }
     }
-    else {
-      return false;
-    }
-  }    
+    return false;
+  }
 })
+
+
+
 
 Template.recList.helpers({
   // find all visible docs
   recipes:function(){
     return Recipes.find();
+  }
+})
+
+Template.ingList.helpers({
+  // find all visible docs
+  ingredients:function(){
+    return Ingredients.find();
   }
 })
 
@@ -109,11 +145,31 @@ Template.commentList.helpers({
 /// EVENTS
 ////////
 
+Template.checklisttemp.events({
+ 
+   "click .js-tog-c":function(event){
+   console.log(event.target.name);
+    var rec = {_id:Session.get("recid"), temp_check:event.target.name};
+    if(event.target.checked ) {
+    Meteor.call("updateTags", rec);
+   }else {
+      Meteor.call("removeTags", rec);
+     
+   }
+   
+  }
+})
+
+
 Template.navbar.events({
-  // add doc button
-  "click .js-add-rec":function(event){
+ 
+})
+
+
+Template.ingList.events({ 
+    "click .js-add-ingr":function(event){
     event.preventDefault();
-    console.log("Add a new rec!");
+    console.log("Add a new ingr!");
 
     for (var i=0;i<10;i++){
       Meteor.call('testMethod', function(){
@@ -128,20 +184,22 @@ Template.navbar.events({
     }
     else {
       // they are logged in... lets insert a doc
-      var id = Meteor.call("addRec", function(err, res){
+      var id = Meteor.call("addIngr", function(err, res){
         if (!err){// all good
           console.log("event callback received id: "+res);
-          Session.set("recid", res);            
+          Session.set("ingid", res);            
         }
       });
     }
   }, 
   // load doc button
-  "click .js-load-rec":function(event){
+  "click .js-load-ingr":function(event){
     //console.log(this);
-    Session.set("recid", this._id);
+    Session.set("ingid", this._id);
   }
-})
+}); 
+
+
 Template.recList.events({ 
    // add doc button
   "click .js-add-rec":function(event){
@@ -208,6 +266,7 @@ function fixObjectKeys(obj){
   }
   return newObj;
 }
+
 
 
 

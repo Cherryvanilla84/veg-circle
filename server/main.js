@@ -3,7 +3,11 @@
 Meteor.startup(function () {
   // create a starter doc if necessary
   if (!Recipes.findOne()){// no documents yet!
-      Recipes.insert({title:"my new recipe", description:"my description"});
+      Recipes.insert({title:"my new recipe", description:"my description" ,temp_check: " ", tags: []});
+  }
+  
+    if (!Ingredients.findOne()){// no documents yet!
+      Ingredients.insert({name:"my new ingredient", description:"my description"});
   }
 });
 
@@ -11,6 +15,13 @@ Meteor.startup(function () {
 // publish read access to collections
 
 // all visible docs 
+Meteor.publish("ingredients", function(){
+  return Ingredients.find();
+})
+
+
+
+
 Meteor.publish("recipes", function(){
   return Recipes.find({
    $or:[

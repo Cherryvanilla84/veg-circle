@@ -5,13 +5,13 @@
           {{> recMeta}}
       </div>
     </div>
-
-    <div class="row">
+   
+   <!-- <div class="row">
       <div class="col-md-12">
           {{> editingUsers}}
       </div>
     </div>
-
+-->
 <!--    <div class="row">
       <div class="col-md-6">
           {{> editor}}
@@ -20,6 +20,10 @@
         {{> viewer}}
       </div>
     </div>-->
+    <br>
+        <br>
+   <!-- {{>  myFabTemplate}}-->
+       {{> checklisttemp}}
     {{> commentList}}
 
     {{> insertCommentForm}}
@@ -45,23 +49,42 @@
 <template name="recMeta"> 
   {{#with recipes}}
    <div class="row">
-     <div class= "col-md-2 h1"> Title: 
+     <div class= "well well-sm col-md-2 h2"> Title: 
        </div>  
-       <div class= "col-md-10 h1">
-          <span class="h1"> {{> editableText collection="recipes" field="title" textarea=true }}</span>
+       <div class= "col-md-10 h2 " >
+          <span class="h2"> {{> editableText collection="recipes" field="title" textarea=true }}</span>
        </div>
   </div>
   
   
   <div class="row">
-     <div class= "col-md-2 h2"> Description: 
+      
+     <div class= "well well-sm col-md-2 h2">
+         
+        Description: 
+        
        </div>  
        <div class= "col-md-10 h2">
           <span class="h2"> {{> editableText collection="recipes" field="description" wysiwyg=true rows = 30 }}</span>
        </div>
   </div>
   
-  {{#if canEdit}}
+  
+  <div class="row">
+      
+     <div class= "well well-sm col-md-2 h2">
+         
+        Ingriedents selected: 
+        
+       </div>  
+       <div class= "col-md-10 h2">
+          <span class="h2"> {{> editableText collection="recipes" field="tags" textarea=true }}</span>
+       </div>
+  </div>
+  
+  
+  {{/with}} 
+<!--  {{#if canEdit}}
   <div class="checkbox">
       <label>
         <input type="checkbox" class="js-tog-private">Private
@@ -69,16 +92,31 @@
   </div>
   {{/if}}
 
-  {{/with}}
+ -->
 </template>
 
-<template name="editingUsers"> 
+<template name ="checklisttemp">
+    
+    {{#each data}}
+    <label >
+  <input class="js-tog-c" type="checkbox" name={{_id}} checked={{isChecked}}> {{name}}
+  
+  </label>
+   {{/each}}
+  
+ </template>  
+<!--<template name="myFabTemplate">
+    <section>
+        <input type="text" value="{{getStuff}}" data-role="tagsinput">
+    </section>
+</template>-->
+<!--<template name="editingUsers"> 
   Editors:
   {{#each users}}
   <span class="label label-success">{{firstname}} </span>
    
   {{/each}}
-</template>
+</template>-->
 
 <template name="commentList">
   {{#each comments}}
@@ -91,11 +129,9 @@
 </template>
 
 
-<template name="insertCommentForm2">
-  {{> quickForm collection="Comments" id="insertCommentForm" type="method" meteormethod="addComment"}}
-</template>
 
 <template name="insertCommentForm">
+      
     {{#autoForm collection="Comments" id="insertCommentForm" type="method" meteormethod="addComment"}}
     <fieldset>
       <legend>Comment</legend>

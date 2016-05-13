@@ -1,28 +1,24 @@
-<template name="recList">
-
-
+<template name="ingList">
 	<div class="container top-margin">
 	 	<div class="row">
-           <div class="col-sm-1 col-xs-6">
-                <a  href ="#" class="js-add-rec">
-                <img style="width:50px;height:50px;" class="img-circle img-responsive img-center" src="https://lh4.ggpht.com/LdVHCu7ffNnhVFMFi2PR9EAqcPDgVaCEVd4kLb7lieXUA-mEFPOF_6C-IBSQMFu69oM=w300" alt="">
+                <div class="col-sm-1 col-xs-6">
+                <a  href ="#" class="js-add-ingr">
+                <img style="width:50px;height:50px;" class="img-circle img-responsive img-center" src="https://lh5.ggpht.com/3gt4w6UaLauNJzwuCH0K8diGatwjtZOiymxou4PaBb3Zq2yMWPgD-Uf1yyEwgWyvA-4=w170" alt="">
                 </a>
-                <center><h4>Add Recipe</h4> </center>
+                <center><h4>Add Ingredients</h4> </center>
                 
             </div>   
              
   		 <div class="col-md-10 col-xs-6">
-          {{#each recipes}}
+  		{{#each ingredients}}
   		<div class="col-md-3 col-xs-6">
   			<div class="light-border">
-  				<a href="/recipes/{{_id}}">{{title}}</a>
+  				<a href="/ingredients/{{_id}}">{{name}}</a>
   			</div>
   		</div>
   		{{/each}}
-  	 </div>
-      
+  		</div> 
       	</div> 
-      
 <!--        <div class="row">
             <div class="col-sm-4">
                 <img style="width:100px;height:100px;" class="img-circle img-responsive img-center" src="https://lh4.ggpht.com/IVqQJqtpLtbbgKrV948912cFdD0tEOBJoDvL8CCRebZ7Peaxw8msX2ykRZ7dnNFUGA=w300" alt="">
@@ -44,6 +40,4 @@
         </div>-->
       
 	</div>
-    
-    
 </template>

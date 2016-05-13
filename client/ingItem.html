@@ -1,0 +1,47 @@
+<template name="ingrItem">
+<div class="container top-margin">
+    <div class="row">
+      <div class="col-md-12">
+          {{> ingDett}}
+      </div>
+    </div>
+   
+  
+	</div>
+</template>
+
+
+
+
+<template name="ingDett"> 
+  {{#with ingredients}}
+   <div class="row">
+     <div class= "well well-sm col-md-2 h2"> Name: 
+       </div>  
+       <div class= "col-md-10 h2 " >
+          <span class="h2"> {{> editableText collection="ingredients" field="name" textarea=true }}</span>
+       </div>
+  </div>
+  
+  
+  <div class="row">
+      
+     <div class= "well well-sm col-md-2 h2">
+         
+        Description: 
+        
+       </div>  
+       <div class= "col-md-10 h2">
+          <span class="h2"> {{> editableText collection="ingredients" field="description" wysiwyg=true rows = 30 }}</span>
+       </div>
+  </div>
+  
+  
+  {{/with}} 
+
+</template>
+
+
+
+
+
