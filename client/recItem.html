@@ -70,7 +70,7 @@
   </div>
   
   
-  <div class="row">
+ <!-- <div class="row">
       
      <div class= "well well-sm col-md-2 h2">
          
@@ -80,7 +80,7 @@
        <div class= "col-md-10 h2">
           <span class="h2"> {{> editableText collection="recipes" field="tags" textarea=true }}</span>
        </div>
-  </div>
+  </div>-->
   
   
   {{/with}} 
@@ -96,7 +96,7 @@
 </template>
 
 <template name ="checklisttemp">
-    
+    <h3> Choose your Ingredients </h3>
     {{#each data}}
     <label >
   <input class="js-tog-c" type="checkbox" name={{_id}} checked={{isChecked}}> {{name}}

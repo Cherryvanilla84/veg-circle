@@ -8,43 +8,6 @@ Meteor.subscribe("ingredients");
 
 
 
-/*Template.editor.helpers({
-  // get current doc id
-  recid:function(){
-    setupCurrentRec();
-    return Session.get("recid");
-  }, 
-  // set up the editor
-  config:function(){
-    return function(editor){
-      editor.setOption("lineNumbers", true);
-      editor.setOption("theme", "cobalt");
-      editor.on("change", function(cm_editor, info){
-        $("#viewer_iframe").contents().find("html").html(cm_editor.getValue());
-        Meteor.call("addEditingUser", Session.get("recid"));
-      });        
-    }
-  }, 
-});
-*/
-
-/*Template.editingUsers.helpers({
-  // retrieve a list of users
-  users:function(){
-    var rec, eusers, users;
-    rec = Recipes.findOne({_id:Session.get("recid")});
-    if (!rec){return;}// give up
-    eusers = EditingUsers.findOne({recid:rec._id});
-    if (!eusers){return;}// give up
-    users = new Array();
-    var i = 0;
-    for (var user_id in eusers.users){
-        users[i] = fixObjectKeys(eusers.users[user_id]);
-        i++;
-    }
-    return users;
-  }
-})*/
 
 Template.navbar.helpers({
   // rerrieve a list of documents
@@ -62,10 +25,47 @@ Template.navbar.helpers({
         return "Amsterdam,Washington,Sydney,Beijing,Cairo";
     }
 });*/
+
+
+Template.checklisttemp.rendered = function () {
+  
+ 
+    $(".js-tog-c").each(function () {
+          
+      console.log(this.name);
+      var j =[];
+      var c = Recipes.findOne({_id:Session.get("recid")});
+      j= c.tags;
+      if (j.indexOf(this.name)> -1) {
+        $(this).prop("checked", true);
+      }else
+      { $(this).prop("checked", false); }
+    }  );
+ 
+}
+;
+
+/*Template.checklisttemp.onRendered( function () {
+ var b = Ingredients.find();
+ var inter = b.fetch();
+ console.log("rendere");
+for (var i=0; i<inter.length; i++) {
+    if( inter[i]._id == $this.id) {
+      
+      $(this).prop("checked", true);
+    }
+    
+}
+ 
+ 
+
+
+})*/
+
 Template.checklisttemp.helpers({
   // find all visible docs
   data:function(){
-    return Ingredients.find();
+ return Ingredients.find();
   }
 })
 
